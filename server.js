@@ -24,7 +24,36 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+// Following section was completed by Bradley Burrows
 
+// API endpoint for timestamps
+// Check if the Date String is left empty
+app.get("/api/timestamp", (req, res) => {
+  let today = new Date(Date.now());
+  let dateObj = { "unix": today.getTime(), "utc": today.toUTCString() };
+  res.json(dateObj);
+});
+
+// Check if Date String is included and check if it is a Number or String
+app.get("/api/timestamp/:dateStr", (req, res) => {
+  
+  if(!req.params.dateStr) {
+    let today = Date.now();
+    let dateObj = { "unix": today.getTime(), "utc": today.toUTCString() };
+    res.json(dateObj);
+  } else if(!isNaN(+req.params.dateStr)) {
+    let d = new Date(+req.params.dateStr);
+    let dateObj = { "unix": d.getTime(), "utc": d.toUTCString() };
+    res.json(dateObj);
+  } else {
+    let d = new Date(req.params.dateStr);
+    let dateObj = { "unix": d.getTime(), "utc": d.toUTCString() };
+    res.json(dateObj);
+  }
+  
+});
+
+// End of user completed section
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
